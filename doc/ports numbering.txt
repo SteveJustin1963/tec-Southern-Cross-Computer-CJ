@@ -1,0 +1,6 @@
+As there are now more than a handful of Version 3 SC boards out there I thought I would clarify something that Craig Hart has pointed out. The first, the expansion port(s) pin numbering. Conventionally, headers are numbered across, that is odd pin numbers down one side, even down the other. I numbered the connector like an IC, pin numbers down one side and up the other. There is a pictorial representation of this on the schematic.
+
+The second thing is the orientation, pin 1 of the connector is down the bottom, this is due to the original use of the Right Angled connector which makes the connector upside down with respect to the Z80 IC.
+
+The intent was to have the connector pinout match the Z80 as there is 1 to 1 pin correspondence if the connector pin 1 is at the top left.
+Bit of a fail there I'm afraid, I don't think it's such a big deal just something to be aware of.?? 

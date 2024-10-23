@@ -1,0 +1,155 @@
+Craig Jones
+FtdeScbnopothSrunamrsyduo 1ered0m  · 
+This is the TEC-1 display and keyboard schematic with a scanned keyboard, Bit Banged Serial port and JR mods. Nothing new here.
+
+Consider it's operation;
+Display is scanned normally by the monitor, NMI interrupt occurs on keypress due to the 4 input OR.
+NMI routine determines which key is pressed using either current register contents or reading display scanning variables in RAM, perhaps it does a debounce delay as well.
+NMI routine passes key back to monitor via whatever method the monitor currently uses.
+NMI interrupts only occur when display is being scanned.
+The monitors would need revision but possibly only the NMI routine.
+Of Course we now know that 74c923's are fairly readily available, crisis averted! But I already did this pretty drawing.?? See Less
+Seen by 73
+
+Comments
+John Hardy
+Nice! Although the monitors would need to be updated in fairly small ways, the next question is what to do about interrupts and to share them with other uses (such as SIO etc)
+I guess with this keyboard we are still committed to NMI although really it should be maskable. Does the keyboard really need to be interrupt driven or can it be just polled as per Jim's scheme?
+This bit-banged serial I'm assuming is really only suitable for block uploads and downloads, so I assume that's polled rather than interrupt driven?
+ · 
+ · Reply · Share · 17w · Edited
+Craig Jones
+John Hardy NMI interrupts can only occur while the display is being scanned, so It shouldn't be a problem when users aren't interacting with the monitor.
+Bit Banged serial is timed so can't be interrupt driven. Stay tuned for SC monitor for TEC, it will allow INTEL Hex download of code and interactive monitor for debugging.
+ · 
+ · Reply · Share · 17w
+John Hardy
+I really think the 74923 should be done away with as a matter of principle even though it's common enough. Like my choice of 8212's for the latches in the TEC-1 first gen, I wasn't really thinking of cost or availability.
+ · 
+ · Reply · Share · 17w
+Craig Jones
+No, I don't think using it's a problem, there are plenty of them available from a variety of sources. If it aint broke...
+ · 
+ · Reply · Share · 17w
+John Hardy
+"TEC-1 the 8-chip computer"
+ · 
+ · Reply · Share · 17w
+Craig Jones
+John Hardy You can't change it after 38 years. Not even for the 40th Anniversary TEC.
+"TEC-1 still going strong after 40 years, users struggling with arthritis"
+ · 
+ · Reply · Share · 17w
+Craig Hart
+John Hardy I've waited 38 years for this joke.
+ · 
+ · Reply · Share · 17w
+Craig Jones
+Was it worth it? The writers want to know...
+ · 
+ · Reply · Share · 17w
+Mark Jelic
+Craig Jones but I think it is broke... you can’t expand the keyboard to full QWERTY. ??
+ · 
+ · Reply · Share · 17w
+Craig Jones
+Mark Jelic Anything is possible. Looking at the scanned keyboard schematic, there is one 8 bit output port and one 8 bit input port. Remove all the other stuff and you can scan 8x8 = 64 keys and have up to 8 displays as well.
+ · 
+ · Reply · Share · 17w · Edited
+John Hardy
+Craig Jones yes exactly
+ · 
+ · Reply · Share · 17w
+Craig Jones
+John Hardy After that it's just the easy part, the software. Right John?
+ · 
+ · Reply · Share · 17w
+John Hardy
+comparatively speaking, a cinch
+ · 
+ · Reply · Share · 17w
+Stephen Justin
+Mark Jelic https://easyeda.com/editor...
+EasyEDA(Standard) - A Simple and Powerful Electronic Circuit Design Tool
+EASYEDA.COM
+EasyEDA(Standard) - A Simple and Powerful Electronic Circuit Design Tool
+EasyEDA(Standard) - A Simple and Powerful Electronic Circuit Design Tool
+ · 
+ · Reply · Share · Remove Preview · 16w
+Mark Jelic
+Stephen Justin I hate EDA and it’s lack of ability to connect with wires.
+But that said, yes I’m aware you can go to 40 keys... but that’s not enough. 26 letters. 10 numbers. Our 4 keys (Ad, Go, + -) that leaves no key for a Space or any other punctu… See More
+ · 
+ · Reply · Share · 16w
+Stephen Justin
+cool, yeah i hate it too, we can add more shift keys +diodes on D lines, max it out, no idea how bad it can get, willing to try, still mucking with Q10 adapater, sm soldering,,,,aaahhh. the 923 factory can make another 10,000 units on request
+ · 
+ · Reply · Share · 16w
+Craig Hart
+Stephen Justin all things are possible. A full keyboard is certainly do-able. Idealy id like to make a usb or at least ps/2 version.
+ · 
+ · Reply · Share · 16w
+Write a public reply…
+
+Briερ CHIH?
+I can't see the schematic clearly at the moment (using a phone). But would the keyboard still work if the LEDs are not being scanned? A few programs that I know don't scan the LEDs but need the keyboard. My LCD game is one of them
+ · 
+ · Reply · Share · 17w
+John Hardy
+The scanning should be driven by an interrupt. ??
+ · 
+ · Reply · Share · 17w
+John Hardy
+... while driving the serial port
+ · 
+ · Reply · Share · 17w
+John Hardy
+... while controlling the tone generator
+ · 
+ · Reply · Share · 17w
+Craig Jones
+Check this out http://www.mm74c922.com/
+MM74C922 Keyboard Encoder Replacement IC
+MM74C922.COM
+MM74C922 Keyboard Encoder Replacement IC
+MM74C922 Keyboard Encoder Replacement IC
+ · 
+ · Reply · Share · 17w
+Mark Jelic
+Craig Jones If we go the way of getting chips from only a single supplier (I bet they aint cheap) then we may as well get this from them:
+http://www.abcircuits.com/.../keyboard-encoder-parallel...
+ABCircuits Turning Ideas Into Reality - Keyboard Encoder IC Parallel output 64 keys
+ABCIRCUITS.COM
+ABCircuits Turning Ideas Into Reality - Keyboard Encoder IC Parallel output 64 keys
+ABCircuits Turning Ideas Into Reality - Keyboard Encoder IC Parallel output 64 keys
+ · 
+ · Reply · Share · 16w
+Craig Jones
+Mark Jelic Yes, Just looks expensive! I think the take away is that to 100% replace the 923 you would just use a micro like those products. Then your QWERTY keyboard would be a lot easier to do. The problem is I/O as I think you have already discussed. Perhaps a small micro with the arduino style 74hc595 and 74hc165 port expansion input and output would fit on a small enough PCB.
+ · 
+ · Reply · Share · 16w
+Mark Jelic
+Craig Jones agreed. And as I’ve said before, I don’t have an issue with using anything like an Arduino or Pi Pico or whatever. I kinda think, with what I’d like it to do, you almost have to go some micro. I want it to be usable, transparently, on the original TEC-1 (any monitor) and then without anything other than a key press, a new Monitor recognises you have a qwerty keyboard extension and can type full characters in whatever language.
+ · 
+ · Reply · Share · 16w
+Write a public reply…
+
+John Hardy
+I think those OR gates could be diodes right?
+Also if this thing only works while scanning the display, what use is the NMI interrupt, might as well just poll.
+ · 
+ · Reply · Share · 16w
+Craig Jones
+John Hardy Yes, I just drew the OR gates for clarity, use any implementation you like. The whole idea of this circuit was to present something that required minimal changes to existing monitors. Going with a fully scanned keyboard, disregarding any imp… See More
+ · 
+ · Reply · Share · 16w · Edited
+John Hardy
+I think requiring the display to be in scanning routine before an interrupt will be received will work for the monitors but I think most other programs will need some modification.
+ · 
+ · Reply · Share · 16w · Edited
+John Hardy
+Personally I think the scanning of the display and keyboard should be driven by a periodic interrupt. Then the software for maintaining input and output becomes very simple.
+ · 
+ · Reply · Share · 16w · Edited
+Craig Jones
+John Hardy To emulate the current keyboard encoder fully with a scanned keyboard, I agree, a periodic interrupt would be a way to scan the keys and trigger a NMI that the monitor could process. However I would expect that a lot of programs would directly read the keyboard port.
